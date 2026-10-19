@@ -21,27 +21,42 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', service: 'silent-outlook-otp-extractor', timestamp: new Date().toISOString() });
 });
 
+function firstValue(value) {
+  return Array.isArray(value) ? value[0] : value;
+}
+
+function readField(source, name) {
+  const value = firstValue(source?.[name]);
+  if (typeof value === 'number' && Number.isFinite(value)) return String(value);
+  return typeof value === 'string' ? value.trim() : '';
+}
+
 /**
- * Single account OTP extraction endpoint
+ * GET nhận dữ liệu trên URL, POST nhận JSON body.
+ * Cả hai đều trả về mã OTP trong trường `otp`.
  */
-app.post('/api/extract-otp', async (req, res) => {
+async function extractOtp(req, res) {
   try {
-    const { rawInput, email, refreshToken, clientId, top = 5, waitSeconds = 0, folder = 'inbox' } = req.body;
+    const source = req.method === 'GET' ? req.query : req.body;
+    const rawInput = readField(source, 'rawInput');
+    const email = readField(source, 'email') || readField(req.params, 'email');
+    const refreshToken = readField(source, 'refreshToken') || readField(req.params, 'refreshToken');
+    const clientId = readField(source, 'clientId') || readField(req.params, 'clientId');
+    const top = readField(source, 'top') || '5';
+    const waitSeconds = readField(source, 'waitSeconds') || '0';
+    const folder = readField(source, 'folder') || 'inbox';
 
     let account = null;
 
-    if (rawInput && rawInput.trim()) {
-      account = parseAccountLine(rawInput.trim());
+    if (rawInput) {
+      account = parseAccountLine(rawInput);
     } else if (email && refreshToken && clientId) {
-      account = {
-        email: email.trim(),
-        refreshToken: refreshToken.trim(),
-        clientId: clientId.trim()
-      };
+      account = { email, refreshToken, clientId };
     } else {
       return res.status(400).json({
         success: false,
-        error: 'Vui lòng cung cấp chuỗi tài khoản hợp lệ (EMAIL|PASSWORD|REFRESH_TOKEN|CLIENT_ID|RECOVERY_EMAIL) hoặc nhập đủ thông tin.'
+        otp: null,
+        error: 'Vui lòng truyền chuỗi tài khoản qua ?rawInput=EMAIL|PASSWORD|REFRESH_TOKEN|CLIENT_ID hoặc đủ ?email=&refreshToken=&clientId=.'
       });
     }
 
@@ -65,12 +80,19 @@ app.post('/api/extract-otp', async (req, res) => {
 
     return res.json(result);
   } catch (err) {
-    return res.status(500).json({
+    const message = err.message || 'Lỗi xử lý trích xuất OTP từ Microsoft';
+    const status = /Invalid format|Invalid or missing|Missing OAuth2|Expected string/i.test(message) ? 400 : 500;
+    return res.status(status).json({
       success: false,
-      error: err.message || 'Lỗi xử lý trích xuất OTP từ Microsoft'
+      otp: null,
+      error: message
     });
   }
-});
+}
+
+app.get('/api/extract-otp', extractOtp);
+app.get('/api/extract-otp/:email/:refreshToken/:clientId', extractOtp);
+app.post('/api/extract-otp', extractOtp);
 
 app.listen(PORT, () => {
   console.log(`\n🚀 [Outlook OTP Web GUI] Đang chạy tại: http://localhost:${PORT}`);

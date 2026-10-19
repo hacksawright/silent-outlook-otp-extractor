@@ -1,0 +1,9 @@
+services:
+  outlook-otp:
+    build: .
+    image: silent-outlook-otp-extractor
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+    restart: unless-stopped
