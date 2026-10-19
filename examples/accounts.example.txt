@@ -1,0 +1,4 @@
+# Format: EMAIL|PASSWORD|REFRESH_TOKEN|CLIENT_ID|RECOVERY_EMAIL
+# Lines starting with '#' or '//' are ignored. Empty lines are ignored.
+
+jackimccoy9755@outlook.com|Q1uxrJIabRWz|M.C557_BAY.0.U.MsaArtifacts.-CgYvbUr9hzpuc*9*yqcKrHIX*0e1MIykdbvGkO0UcjUdeF2dypkDEsRud4cSkHDTtqf9V7WN3SZo4p41rSPVGCB6QXAJzJs5YzboPLl4gZfXPatFkNfetLzaWBRwxeXkV1QBj9huYH!wM24GI9!sos3ycpkEu6VllqtY8!YNNEDOTptXT2kt107HgFhF4E0uXF7L78u8fJQvwjIggiU7xxzrIDorbZRpKvIdYTCu05fgqoFcxcsZPZXy2DLZjLqA24CfYFlzc738IJAyuA8EGMTUaQ6tyb1P*P*1PqKY30hoGuv0i7FllwtGMWFVDwxaxV2lunvJSrJs63UvwkndFoxYBHktYS3wh81IhzOR1SffDuJ2J*kGTP83DC8p4dD58GhOPQ45G!iWTKxuyd3YfWs6ED3mxexiQW!bUAPL3YdPrH02xt98UBj8*RIjYsJ!z4ZgsgyjVcwfQ550iwvfFqo$|9e5f94bc-e8a4-4e73-b8be-63364c29d753|jackimccoy97554zwm@fviainboxes.com

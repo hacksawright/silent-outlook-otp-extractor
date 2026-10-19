@@ -1,0 +1,38 @@
+{
+  "name": "silent-outlook-otp-extractor",
+  "version": "1.0.0",
+  "description": "Silent, lightweight, high-performance Node.js service and CLI tool to retrieve OTP verification codes from Microsoft Outlook/Hotmail accounts via OAuth2 and Graph API without a browser.",
+  "type": "module",
+  "main": "./src/index.js",
+  "bin": {
+    "outlook-otp": "./bin/cli.js"
+  },
+  "scripts": {
+    "start": "node ./bin/cli.js",
+    "gui": "node server.js",
+    "ui": "node server.js",
+    "test": "node --test tests/*.test.js",
+    "example": "node examples/programmatic-usage.js"
+  },
+  "keywords": [
+    "microsoft",
+    "outlook",
+    "hotmail",
+    "oauth2",
+    "graph-api",
+    "otp",
+    "verification-code",
+    "email-extractor",
+    "silent-automation"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^13.1.0",
+    "express": "^5.3.0",
+    "picocolors": "^1.1.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
